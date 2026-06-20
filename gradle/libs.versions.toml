@@ -1,0 +1,73 @@
+[versions]
+coroutines = "1.11.0"
+http4k = "6.53.0.0"
+kotlin = "2.4.0"
+
+detekt = "1.23.8"
+testLogger = "3.2.0"
+
+caffeine = "3.2.4"
+javaJwt = "4.5.2"
+
+datafaker = "2.6.0"
+kotest = "6.2.0"
+kotestAssertionsArrow = "2.0.0"
+mockk = "1.14.11"
+wiremock = "3.13.2"
+testcontainersKotest = "4.4.3"
+
+kotlinLogging = "3.0.5"
+logback = "1.5.34"
+logstashLogbackEncoder = "9.0"
+slf4j = "2.0.18"
+
+commonsCompress = "1.28.0"
+problem = "0.27.1"
+
+[libraries]
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+http4k-bom = { module = "org.http4k:http4k-bom", version.ref = "http4k" }
+
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+http4k-core = { module = "org.http4k:http4k-core" }
+http4k-format-jackson = { module = "org.http4k:http4k-format-jackson" }
+http4k-server-jetty = { module = "org.http4k:http4k-server-jetty" }
+http4k-client-okhttp = { module = "org.http4k:http4k-client-okhttp" }
+http4k-platform-core = { module = "org.http4k:http4k-platform-core" }
+http4k-platform-k8s = { module = "org.http4k:http4k-platform-k8s" }
+http4k-config = { module = "org.http4k:http4k-config" }
+http4k-api-openapi = { module = "org.http4k:http4k-api-openapi" }
+http4k-testing-kotest = { module = "org.http4k:http4k-testing-kotest" }
+
+kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlinLogging" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstashLogbackEncoder" }
+
+java-jwt = { module = "com.auth0:java-jwt", version.ref = "javaJwt" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+
+problem = { module = "org.zalando:problem", version.ref = "problem" }
+problem-jackson = { module = "org.zalando:jackson-datatype-problem", version.ref = "problem" }
+
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-assertions-json = { module = "io.kotest:kotest-assertions-json-jvm", version.ref = "kotest" }
+kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "kotest" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "kotestAssertionsArrow" }
+kotest-testcontainers = { module = "io.kotest:kotest-extensions-testcontainers", version.ref = "testcontainersKotest" }
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+wiremock-standalone = { module = "org.wiremock:wiremock-standalone", version.ref = "wiremock" }
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+test-logger = { id = "com.adarshr.test-logger", version.ref = "testLogger" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

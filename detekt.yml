@@ -1,0 +1,32 @@
+complexity:
+  LongParameterList:
+    active: true
+
+style:
+  WildcardImport:
+    active: false
+  MayBeConst:
+    active: false
+  MaxLineLength:
+    maxLineLength: 200
+    excludes: &testFolders
+      - "**/test/**"
+  MagicNumber:
+    excludes: *testFolders
+  DestructuringDeclarationWithTooManyEntries:
+    excludes: *testFolders
+
+formatting:
+  MaximumLineLength:
+    maxLineLength: 200
+  NoWildcardImports:
+    active: false
+    excludes: *testFolders
+
+performance:
+  ForEachOnRange:
+    excludes: *testFolders
+
+potential-bugs:
+  UnsafeCallOnNullableType:
+    excludes: *testFolders
