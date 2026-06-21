@@ -6,6 +6,8 @@ kotlin = "2.4.0"
 detekt = "1.23.8"
 testLogger = "3.2.0"
 
+jackson = "2.21.2"
+
 caffeine = "3.2.4"
 javaJwt = "4.5.2"
 
@@ -42,6 +44,9 @@ http4k-platform-k8s = { module = "org.http4k:http4k-platform-k8s" }
 http4k-config = { module = "org.http4k:http4k-config" }
 http4k-api-openapi = { module = "org.http4k:http4k-api-openapi" }
 http4k-testing-kotest = { module = "org.http4k:http4k-testing-kotest" }
+
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 
 kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlinLogging" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

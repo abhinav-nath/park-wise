@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.http4k.config)
     implementation(libs.http4k.api.openapi)
 
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.jackson.datatype.jsr310)
+
     implementation(libs.slf4j.api)
     implementation(libs.kotlin.logging)
     implementation(libs.logback.classic)
