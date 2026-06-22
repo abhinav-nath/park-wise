@@ -6,7 +6,10 @@ import com.codecafe.parkwise.environment.DeployedEnvironment.Companion.deployedE
 import com.codecafe.parkwise.handlers.docs.ApiDocumentationHandler
 import com.codecafe.parkwise.handlers.filters.NetworkLoggingFilter
 import com.codecafe.parkwise.handlers.filters.RequestDirection.INBOUND
+import com.codecafe.parkwise.handlers.parkinglot.CreateParkingLotHandler
 import com.codecafe.parkwise.handlers.status.StatusHandler
+import com.codecafe.parkwise.repository.parkinglot.InMemoryParkingLotRepository
+import com.codecafe.parkwise.service.parkinglot.ParkingLotService
 import org.http4k.config.Environment
 import org.http4k.contract.ContractRoute
 import org.http4k.contract.contract
@@ -34,13 +37,18 @@ fun application(environment: Environment): RoutingHttpHandler {
 
     val statusHandler = StatusHandler(clock)
 
+    val parkingLotRepository = InMemoryParkingLotRepository()
+    val parkingLotService = ParkingLotService(parkingLotRepository, clock)
+    val createParkingLotHandler = CreateParkingLotHandler(parkingLotService)
+
     return ServerFilters.InitialiseRequestContext(contexts)
         .then(NetworkLoggingFilter(clock, environment.deployedEnvironment(), INBOUND))
         .then(
             routes(
                 apiHandlers(
                     listOf(
-                        statusHandler.contractRoute()
+                        statusHandler.contractRoute(),
+                        createParkingLotHandler.contractRoute()
                     )
                 ),
                 ApiDocumentationHandler().apiDocumentation()

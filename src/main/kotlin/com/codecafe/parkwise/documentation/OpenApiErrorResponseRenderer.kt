@@ -1,9 +1,11 @@
 package com.codecafe.parkwise.documentation
 
+import com.codecafe.parkwise.exceptions.BadRequestException
 import com.codecafe.parkwise.models.error.asHttpResponse
 import com.codecafe.parkwise.models.error.badRequestProblem
 import com.codecafe.parkwise.models.error.missingFieldProblem
 import com.codecafe.parkwise.models.error.missingRequestQueryParameter
+import com.codecafe.parkwise.util.Extensions.rootCause
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException
@@ -29,10 +31,15 @@ object OpenApiErrorResponseRenderer : ErrorResponseRenderer {
             }
 
             is ValueInstantiationException -> {
-                badRequestProblem(cause.message ?: "invalid request payload").asHttpResponse()
+                when (val rootCause = cause.rootCause) {
+                    is BadRequestException -> rootCause.asHttpResponse()
+                    else -> badRequestProblem(rootCause.message ?: "invalid request payload").asHttpResponse()
+                }
             }
 
-            else -> lensFailure.handleUnknownErrorInRequest()
+            else -> {
+                lensFailure.handleUnknownErrorInRequest()
+            }
         }
 
     override fun notFound(): Response =

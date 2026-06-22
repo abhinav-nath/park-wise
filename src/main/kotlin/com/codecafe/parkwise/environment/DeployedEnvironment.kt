@@ -15,6 +15,6 @@ enum class DeployedEnvironment {
             .defaulted("DEPLOYED_ENVIRONMENT", LOCAL.name)
 
         fun Environment.deployedEnvironment(): DeployedEnvironment =
-            valueOf(deployedEnvironmentKey(this))
+            valueOf(deployedEnvironmentKey(this).uppercase())
     }
 }

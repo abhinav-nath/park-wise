@@ -3,6 +3,7 @@ package com.codecafe.parkwise
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.http4k.format.ConfigurableJackson
@@ -21,6 +22,7 @@ val mapper: ObjectMapper = KotlinModule.Builder()
     .done()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true)
+    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
     .setSerializationInclusion(JsonInclude.Include.NON_NULL)
     .registerModule(ProblemModule())
     .registerModule(JavaTimeModule())

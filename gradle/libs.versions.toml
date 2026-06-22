@@ -4,7 +4,7 @@ http4k = "6.53.0.0"
 kotlin = "2.4.0"
 
 detekt = "1.23.8"
-testLogger = "3.2.0"
+testLogger = "4.0.0"
 
 jackson = "2.21.2"
 
