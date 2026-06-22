@@ -1,10 +1,12 @@
 package com.codecafe.parkwise.service.parkinglot
 
 import com.codecafe.parkwise.exceptions.ConflictException
+import com.codecafe.parkwise.exceptions.NotFoundException
 import com.codecafe.parkwise.models.parkinglot.ParkingLot
 import com.codecafe.parkwise.models.parkinglot.ParkingLotStatus
 import com.codecafe.parkwise.repository.parkinglot.ParkingLotRepository
 import com.codecafe.parkwise.validation.ErrorResponse.Companion.PARKING_LOT_ALREADY_EXISTS
+import com.codecafe.parkwise.validation.ErrorResponse.Companion.PARKING_LOT_NOT_FOUND
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -16,6 +18,7 @@ import io.mockk.verify
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
+import java.util.UUID
 
 class ParkingLotServiceTest : FreeSpec({
 
@@ -104,6 +107,45 @@ class ParkingLotServiceTest : FreeSpec({
 
             verify(exactly = 1) { parkingLotRepository.existsByCode("PHOENIX-MARKETCITY-PUNE") }
             verify(exactly = 0) { parkingLotRepository.save(any()) }
+        }
+    }
+
+    "getParkingLot should" - {
+
+        "return parking lot when found" {
+            val parkingLotId = UUID.fromString("5cc16090-4bb1-4a06-845b-c109e94207bb")
+            val parkingLot = ParkingLot(
+                id = parkingLotId,
+                code = "PHOENIX-MARKETCITY-PUNE",
+                name = "Phoenix Market City",
+                location = "Pune",
+                status = ParkingLotStatus.ACTIVE,
+                createdAt = Instant.parse("2026-06-22T16:30:00Z")
+            )
+
+            every { parkingLotRepository.findById(parkingLotId) } returns parkingLot
+
+            val result = service.getParkingLot(parkingLotId)
+
+            result shouldBe parkingLot
+
+            verify(exactly = 1) { parkingLotRepository.findById(parkingLotId) }
+        }
+
+        "fail when parking lot is not found" {
+            val parkingLotId = UUID.fromString("5cc16090-4bb1-4a06-845b-c109e94207bb")
+
+            every { parkingLotRepository.findById(parkingLotId) } returns null
+
+            val exception = shouldThrow<NotFoundException> {
+                service.getParkingLot(parkingLotId)
+            }
+
+            exception.error.code shouldBe PARKING_LOT_NOT_FOUND
+            exception.error.field shouldBe "parkingLotId"
+            exception.error.message shouldBe "parking lot not found"
+
+            verify(exactly = 1) { parkingLotRepository.findById(parkingLotId) }
         }
     }
 })

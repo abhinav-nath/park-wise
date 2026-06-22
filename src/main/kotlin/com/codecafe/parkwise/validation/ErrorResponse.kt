@@ -8,5 +8,6 @@ data class ErrorResponse(
     companion object {
         const val INVALID_PAYLOAD = "INVALID_PAYLOAD"
         const val PARKING_LOT_ALREADY_EXISTS = "PARKING_LOT_ALREADY_EXISTS"
+        const val PARKING_LOT_NOT_FOUND = "PARKING_LOT_NOT_FOUND"
     }
 }

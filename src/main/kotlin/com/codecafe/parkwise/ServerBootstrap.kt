@@ -7,6 +7,7 @@ import com.codecafe.parkwise.handlers.docs.ApiDocumentationHandler
 import com.codecafe.parkwise.handlers.filters.NetworkLoggingFilter
 import com.codecafe.parkwise.handlers.filters.RequestDirection.INBOUND
 import com.codecafe.parkwise.handlers.parkinglot.CreateParkingLotHandler
+import com.codecafe.parkwise.handlers.parkinglot.GetParkingLotHandler
 import com.codecafe.parkwise.handlers.status.StatusHandler
 import com.codecafe.parkwise.repository.parkinglot.InMemoryParkingLotRepository
 import com.codecafe.parkwise.service.parkinglot.ParkingLotService
@@ -40,6 +41,7 @@ fun application(environment: Environment): RoutingHttpHandler {
     val parkingLotRepository = InMemoryParkingLotRepository()
     val parkingLotService = ParkingLotService(parkingLotRepository, clock)
     val createParkingLotHandler = CreateParkingLotHandler(parkingLotService)
+    val getParkingLotHandler = GetParkingLotHandler(parkingLotService)
 
     return ServerFilters.InitialiseRequestContext(contexts)
         .then(NetworkLoggingFilter(clock, environment.deployedEnvironment(), INBOUND))
@@ -48,7 +50,8 @@ fun application(environment: Environment): RoutingHttpHandler {
                 apiHandlers(
                     listOf(
                         statusHandler.contractRoute(),
-                        createParkingLotHandler.contractRoute()
+                        createParkingLotHandler.contractRoute(),
+                        getParkingLotHandler.contractRoute()
                     )
                 ),
                 ApiDocumentationHandler().apiDocumentation()

@@ -1,11 +1,13 @@
 package com.codecafe.parkwise.service.parkinglot
 
 import com.codecafe.parkwise.exceptions.ConflictException
+import com.codecafe.parkwise.exceptions.NotFoundException
 import com.codecafe.parkwise.models.parkinglot.ParkingLot
 import com.codecafe.parkwise.models.parkinglot.ParkingLotStatus
 import com.codecafe.parkwise.repository.parkinglot.ParkingLotRepository
 import com.codecafe.parkwise.validation.ErrorResponse
 import com.codecafe.parkwise.validation.ErrorResponse.Companion.PARKING_LOT_ALREADY_EXISTS
+import com.codecafe.parkwise.validation.ErrorResponse.Companion.PARKING_LOT_NOT_FOUND
 import java.time.Clock
 import java.util.UUID
 
@@ -39,4 +41,14 @@ class ParkingLotService(
 
         return parkingLotRepository.save(parkingLot)
     }
+
+    fun getParkingLot(parkingLotId: UUID): ParkingLot =
+        parkingLotRepository.findById(parkingLotId)
+            ?: throw NotFoundException(
+                ErrorResponse(
+                    code = PARKING_LOT_NOT_FOUND,
+                    field = "parkingLotId",
+                    message = "parking lot not found"
+                )
+            )
 }

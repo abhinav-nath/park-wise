@@ -15,4 +15,7 @@ class InMemoryParkingLotRepository : ParkingLotRepository {
 
     override fun existsByCode(code: String): Boolean =
         parkingLots.values.any { it.code == code }
+
+    override fun findById(id: UUID): ParkingLot? =
+        parkingLots[id]
 }

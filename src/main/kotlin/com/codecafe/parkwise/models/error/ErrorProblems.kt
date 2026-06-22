@@ -3,6 +3,7 @@ package com.codecafe.parkwise.models.error
 import com.codecafe.parkwise.CustomHttp4kFormats.auto
 import com.codecafe.parkwise.exceptions.BadRequestException
 import com.codecafe.parkwise.exceptions.ConflictException
+import com.codecafe.parkwise.exceptions.NotFoundException
 import org.http4k.core.Body
 import org.http4k.core.ContentType
 import org.http4k.core.Response
@@ -18,11 +19,6 @@ private val problemLens = Body.auto<Problem>().toLens()
 
 fun Problem.asHttpResponse(): Response =
     Response(Status(status?.statusCode ?: Status.INTERNAL_SERVER_ERROR.code, title ?: "Error"))
-        .with(problemLens of this)
-        .with(Header.CONTENT_TYPE of ContentType.APPLICATION_JSON)
-
-fun BadRequestException.asHttpResponse(): Response =
-    Response(Status.BAD_REQUEST)
         .with(problemLens of this)
         .with(Header.CONTENT_TYPE of ContentType.APPLICATION_JSON)
 
@@ -63,7 +59,17 @@ fun notFoundProblem(detail: String): Problem =
         .withDetail(detail)
         .build()
 
+fun BadRequestException.asHttpResponse(): Response =
+    Response(Status.BAD_REQUEST)
+        .with(problemLens of this)
+        .with(Header.CONTENT_TYPE of ContentType.APPLICATION_JSON)
+
 fun ConflictException.asHttpResponse(): Response =
     Response(Status.CONFLICT)
+        .with(problemLens of this)
+        .with(Header.CONTENT_TYPE of ContentType.APPLICATION_JSON)
+
+fun NotFoundException.asHttpResponse(): Response =
+    Response(Status.NOT_FOUND)
         .with(problemLens of this)
         .with(Header.CONTENT_TYPE of ContentType.APPLICATION_JSON)

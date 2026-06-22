@@ -17,7 +17,7 @@ class CreateParkingLotHandler(
     private val parkingLotService: ParkingLotService
 ) {
     private val requestLens = Body.auto<CreateParkingLotRequest>().toLens()
-    private val responseLens = Body.auto<CreateParkingLotResponse>().toLens()
+    private val responseLens = Body.auto<ParkingLotResponse>().toLens()
 
     fun contractRoute(): ContractRoute =
         "v1/parking-lots" meta {
@@ -27,7 +27,7 @@ class CreateParkingLotHandler(
             consumes += ContentType.APPLICATION_JSON
             produces += ContentType.APPLICATION_JSON
             receiving(requestLens to CreateParkingLotRequest.example)
-            returning(CREATED, responseLens to CreateParkingLotResponse.example)
+            returning(CREATED, responseLens to ParkingLotResponse.example)
         } bindContract Method.POST to { request: Request ->
             val createParkingLotRequest = requestLens(request)
 
@@ -38,7 +38,7 @@ class CreateParkingLotHandler(
             )
 
             Response(CREATED).with(
-                responseLens of parkingLot.toCreateParkingLotResponse()
+                responseLens of parkingLot.toParkingLotResponse()
             )
         }
 }

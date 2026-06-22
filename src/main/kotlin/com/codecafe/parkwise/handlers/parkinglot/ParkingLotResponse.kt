@@ -5,7 +5,7 @@ import com.codecafe.parkwise.models.parkinglot.ParkingLotStatus
 import java.time.Instant
 import java.util.UUID
 
-data class CreateParkingLotResponse(
+data class ParkingLotResponse(
     val id: UUID,
     val code: String,
     val name: String,
@@ -14,7 +14,7 @@ data class CreateParkingLotResponse(
     val createdAt: Instant
 ) {
     companion object {
-        val example = CreateParkingLotResponse(
+        val example = ParkingLotResponse(
             id = UUID.fromString("5cc16090-4bb1-4a06-845b-c109e94207bb"),
             code = "PHOENIX-MARKETCITY-PUNE",
             name = "Phoenix Market City",
@@ -25,8 +25,8 @@ data class CreateParkingLotResponse(
     }
 }
 
-fun ParkingLot.toCreateParkingLotResponse(): CreateParkingLotResponse =
-    CreateParkingLotResponse(
+fun ParkingLot.toParkingLotResponse(): ParkingLotResponse =
+    ParkingLotResponse(
         id = id,
         code = code,
         name = name,
